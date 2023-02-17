@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "watch": "tsc --watch",
-    "start": "nodemon ./src/index"
+    "start": "node ./src/index"
 
   },
   "keywords": [],
