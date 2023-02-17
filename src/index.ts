@@ -6,6 +6,8 @@ let app = express()
 
 let output: number = 0;
 
+const port = process.env.PORT || 3000;
+
 type searchType = {
     search_parameter: string,
     weather_site: string,
@@ -119,6 +121,6 @@ app.get("/weather/:param", (request: Request, response: Response): void =>{
     (output === 1) ? response.json(data_by_location) : response.json(locations)
 })
 
-app.listen(3000, ()=>{
+app.listen(port, ()=>{
     console.log("Server is running at port 3000.")
 })
