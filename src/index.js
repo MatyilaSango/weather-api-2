@@ -51,6 +51,7 @@ const getDataByLocation = (location) => __awaiter(void 0, void 0, void 0, functi
         .then(prom => prom.data)
         .then(results => results);
     let $ = cheerio.load(response);
+    data_by_location.search_parameter = $("head").find("title").text().trim();
     data_by_location.data.time = $(".cur-con-weather-card").find(".cur-con-weather-card__subtitle").text().trim();
     data_by_location.data.temp = $(".cur-con-weather-card").find(".temp-container .temp").text().trim();
     data_by_location.data.type = $(".cur-con-weather-card").find(".spaced-content").find(".phrase").text();
@@ -70,7 +71,6 @@ const getDataByLocation = (location) => __awaiter(void 0, void 0, void 0, functi
 const getSearchData = (location) => {
     getLocations(location).then(res => {
         if (res.length === 0) {
-            data_by_location.search_parameter = location;
             getDataByLocation(location);
             output = 1;
         }
@@ -81,8 +81,12 @@ const getSearchData = (location) => {
         }
     });
 };
-getSearchData("Cape Town, Western Cape");
 app.get("/", (request, response) => {
+    response.json("A global weather API.");
+});
+app.get("/weather/:param", (request, response) => {
+    const query = request.params.param;
+    getSearchData(query);
     (output === 1) ? response.json(data_by_location) : response.json(locations);
 });
 app.listen(3000, () => {

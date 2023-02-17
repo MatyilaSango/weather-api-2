@@ -1,5 +1,5 @@
 import axios from "axios"
-import express, { Request, Response } from "express"
+import express, { request, Request, Response } from "express"
 import cheerio = require("cheerio");
 
 let app = express()
@@ -70,6 +70,7 @@ const getDataByLocation = async (location: string): Promise<any> => {
 
     let $ = cheerio.load(response)
 
+    data_by_location.search_parameter = $("head").find("title").text().trim()
     data_by_location.data.time = $(".cur-con-weather-card").find(".cur-con-weather-card__subtitle").text().trim()
     data_by_location.data.temp = $(".cur-con-weather-card").find(".temp-container .temp").text().trim()
     data_by_location.data.type = $(".cur-con-weather-card").find(".spaced-content").find(".phrase").text()
@@ -95,9 +96,8 @@ const getDataByLocation = async (location: string): Promise<any> => {
 const getSearchData = (location: string): void =>{ 
     getLocations(location).then(res => {
         if(res.length === 0){
-            data_by_location.search_parameter = location
             getDataByLocation(location);
-
+        
             output = 1
         }
         else if(res.length > 0){
@@ -109,9 +109,13 @@ const getSearchData = (location: string): void =>{
     })    
 }
 
-getSearchData("Cape Town, Western Cape");
-
 app.get("/", (request: Request, response: Response): void => {
+    response.json("A global weather API.")
+})
+
+app.get("/weather/:param", (request: Request, response: Response): void =>{
+    const query: string = request.params.param;
+    getSearchData(query);
     (output === 1) ? response.json(data_by_location) : response.json(locations)
 })
 
