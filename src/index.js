@@ -33,7 +33,7 @@ let data_by_location = {
         air_quality: "",
         wind: "",
         wind_gusts: "",
-        type: "Current weather",
+        type: "",
     }
 };
 const getLocations = (search) => __awaiter(void 0, void 0, void 0, function* () {
@@ -81,7 +81,7 @@ const getSearchData = (location) => {
         }
     });
 };
-getSearchData("Cape Town Stadium, Western Cape");
+getSearchData("Cape Town, Western Cape");
 app.get("/", (request, response) => {
     (output === 1) ? response.json(data_by_location) : response.json(locations);
 });

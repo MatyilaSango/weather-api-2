@@ -46,7 +46,7 @@ let data_by_location: location_data = {
         air_quality: "",
         wind: "",
         wind_gusts: "",
-        type: "Current weather",
+        type: "",
         }
 }
 
@@ -109,7 +109,7 @@ const getSearchData = (location: string): void =>{
     })    
 }
 
-getSearchData("Cape Town Stadium, Western Cape");
+getSearchData("Cape Town, Western Cape");
 
 app.get("/", (request: Request, response: Response): void => {
     (output === 1) ? response.json(data_by_location) : response.json(locations)
