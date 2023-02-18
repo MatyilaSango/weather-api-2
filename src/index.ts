@@ -26,7 +26,7 @@ app.get("/", (request: Request, response: Response): void => {
     response.json("A global weather API.");
 });
 
-app.get("/weather/:param", (request: Request, response: Response): void => {
+app.get("/today/:param", (request: Request, response: Response): void => {
     const query: string = request.params.param;
     getSearchOption(query).then((res) => {
         res === 1
@@ -34,6 +34,15 @@ app.get("/weather/:param", (request: Request, response: Response): void => {
             : response.json(locationObj.getLocations());
     });
 });
+
+app.get("/hourly/:param", (request: Request, response: Response): void => {
+
+})
+
+app.get("/daily/:param", (request: Request, response: Response): void => {
+    
+})
+
 
 app.listen(port, () => {
     console.log("Server is running at port 3000.");
