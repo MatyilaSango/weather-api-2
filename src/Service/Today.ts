@@ -11,6 +11,7 @@ export class Today {
         data: {
             title: "Current weather",
             time: "",
+            date: new Date(),
             temp: "",
             real_feel: "",
             air_quality: "",
@@ -24,13 +25,23 @@ export class Today {
 
     constructor() { }
 
+    public isFreshData = (data: todayDataType): boolean => {
+        if(data){
+            let date_now: Date = new Date();
+            var data_time = new Date(data.data.date.getTime())
+            data_time.setMinutes(data_time.getMinutes() + 5)
+            if(date_now.getTime() > data_time.getTime()){
+                return false
+            }
+        }
+        return true
+    }
+
     public scrapLocation = async (search: string): Promise<void> => {
-        if(this._storage_today.getToday(search)){
-            console.log("exist")
+        if(this._storage_today.getToday(search) && this.isFreshData(this._storage_today.getToday(search))){
             this._data_by_location = this._storage_today.getToday(search)
         }
         else{
-            console.log("scrapping")
             let response = await axios
                 .get(`https://www.accuweather.com/en/search-locations?query=${search}`)
                 .then((prom) => prom.data)
@@ -47,6 +58,7 @@ export class Today {
                 .find(".cur-con-weather-card__subtitle")
                 .text()
                 .trim();
+            this._data_by_location.data.date = new Date();
             this._data_by_location.data.temp = $(".cur-con-weather-card")
                 .find(".temp-container .temp")
                 .text()

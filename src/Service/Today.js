@@ -24,6 +24,7 @@ class Today {
             data: {
                 title: "Current weather",
                 time: "",
+                date: new Date(),
                 temp: "",
                 real_feel: "",
                 air_quality: "",
@@ -33,13 +34,22 @@ class Today {
             },
         };
         this._storage_today = new StorageToday_1.TodayStorage();
+        this.isFreshData = (data) => {
+            if (data) {
+                let date_now = new Date();
+                var data_time = new Date(data.data.date.getTime());
+                data_time.setMinutes(data_time.getMinutes() + 5);
+                if (date_now.getTime() > data_time.getTime()) {
+                    return false;
+                }
+            }
+            return true;
+        };
         this.scrapLocation = (search) => __awaiter(this, void 0, void 0, function* () {
-            if (this._storage_today.getToday(search)) {
-                console.log("exist");
+            if (this._storage_today.getToday(search) && this.isFreshData(this._storage_today.getToday(search))) {
                 this._data_by_location = this._storage_today.getToday(search);
             }
             else {
-                console.log("scrapping");
                 let response = yield axios_1.default
                     .get(`https://www.accuweather.com/en/search-locations?query=${search}`)
                     .then((prom) => prom.data)
@@ -54,6 +64,7 @@ class Today {
                     .find(".cur-con-weather-card__subtitle")
                     .text()
                     .trim();
+                this._data_by_location.data.date = new Date();
                 this._data_by_location.data.temp = $(".cur-con-weather-card")
                     .find(".temp-container .temp")
                     .text()
