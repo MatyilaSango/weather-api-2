@@ -1,16 +1,11 @@
 import { todayDataType } from "../Types/types";
 
-export class TodayStorage{
+let data: todayDataType[] = [];
 
-    private _data: todayDataType[] = [];
+export const setToday = (today: todayDataType): void => {
+    data.push(today);
+}
 
-    constructor(){}
-
-    public setToday = (today: todayDataType): void => {
-        this._data.push(today);
-    }
-
-    public getToday = (location: string): todayDataType => {
-        return this._data.filter(data => data.search_parameter.includes(location))[0];
-    }
-} 
+export const getToday = (location: string): todayDataType => {
+    return data.filter(data_ => data_.search_parameter.includes(location))[0];
+}

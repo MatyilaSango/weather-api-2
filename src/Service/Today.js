@@ -33,7 +33,6 @@ class Today {
                 type: "",
             },
         };
-        this._storage_today = new StorageToday_1.TodayStorage();
         this.isFreshData = (data) => {
             if (data) {
                 let date_now = new Date();
@@ -46,8 +45,8 @@ class Today {
             return true;
         };
         this.scrapLocation = (search) => __awaiter(this, void 0, void 0, function* () {
-            if (this._storage_today.getToday(search) && this.isFreshData(this._storage_today.getToday(search))) {
-                this._data_by_location = this._storage_today.getToday(search);
+            if ((0, StorageToday_1.getToday)(search) && this.isFreshData((0, StorageToday_1.getToday)(search))) {
+                this._data_by_location = (0, StorageToday_1.getToday)(search);
             }
             else {
                 let response = yield axios_1.default
@@ -94,11 +93,11 @@ class Today {
                                 .text();
                     }
                 });
-                this._storage_today.setToday(this._data_by_location);
+                (0, StorageToday_1.setToday)(this._data_by_location);
             }
         });
         this.getData = (location) => {
-            return this._storage_today.getToday(location);
+            return (0, StorageToday_1.getToday)(location);
         };
     }
 }
