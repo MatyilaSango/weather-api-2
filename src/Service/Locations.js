@@ -17,7 +17,6 @@ const axios_1 = __importDefault(require("axios"));
 const cheerio = require("cheerio");
 class Locations {
     constructor() {
-        this._searchParam = "";
         this._locations = {
             search_parameter: "",
             weather_site: "accuweather",

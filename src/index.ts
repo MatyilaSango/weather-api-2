@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import { Today } from "./Today";
-import { Locations } from "./Locations";
+import { Today } from "./Service/Today";
+import { Locations } from "./Service/Locations";
 
 const port = process.env.PORT || 3000;
 
@@ -30,17 +30,18 @@ app.get("/today/:param", (request: Request, response: Response): void => {
     const query: string = request.params.param;
     getSearchOption(query).then((res) => {
         res === 1
-            ? response.json(todayObj.getData())
+            ? response.json(todayObj.getData(query))
             : response.json(locationObj.getLocations());
     });
 });
 
 app.get("/hourly/:param", (request: Request, response: Response): void => {
+    const query: string = request.params.param;
 
 })
 
 app.get("/daily/:param", (request: Request, response: Response): void => {
-    
+    const query: string = request.params.param;
 })
 
 
