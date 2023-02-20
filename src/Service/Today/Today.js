@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Today = void 0;
 const axios_1 = __importDefault(require("axios"));
 const cheerio = require("cheerio");
-const StorageToday_1 = require("../Storage/StorageToday");
+const Storage_1 = require("../../Storage");
 class Today {
     constructor() {
         this._data_by_location = {
@@ -44,9 +44,9 @@ class Today {
             }
             return true;
         };
-        this.scrapLocation = (search) => __awaiter(this, void 0, void 0, function* () {
-            if ((0, StorageToday_1.getToday)(search) && this.isFreshData((0, StorageToday_1.getToday)(search))) {
-                this._data_by_location = (0, StorageToday_1.getToday)(search);
+        this.scrapToday = (search) => __awaiter(this, void 0, void 0, function* () {
+            if ((0, Storage_1.getToday)(search) && this.isFreshData((0, Storage_1.getToday)(search))) {
+                this._data_by_location = (0, Storage_1.getToday)(search);
             }
             else {
                 let response = yield axios_1.default
@@ -93,11 +93,11 @@ class Today {
                                 .text();
                     }
                 });
-                (0, StorageToday_1.setToday)(this._data_by_location);
+                (0, Storage_1.setToday)(this._data_by_location);
             }
         });
         this.getData = (location) => {
-            return (0, StorageToday_1.getToday)(location);
+            return (0, Storage_1.getToday)(location);
         };
     }
 }

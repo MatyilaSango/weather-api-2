@@ -1,6 +1,6 @@
 import axios from "axios";
 import cheerio = require("cheerio");
-import { locationsType } from "../Types/types";
+import { locationsType } from "../../Types/types";
 
 export class Locations {
 
