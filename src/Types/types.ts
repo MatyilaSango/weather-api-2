@@ -7,6 +7,7 @@ export type locationsType = {
 export type dataType = {
     title: string,
     time: string,
+    date: Date,
     temp: string,
     real_feel: string,
     air_quality: string,
