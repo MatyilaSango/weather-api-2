@@ -1,25 +1,33 @@
 import express, { Request, Response } from "express";
-import { Today } from "./Service/Today";
-import { Locations } from "./Service/Locations";
+import { Today } from "./Service/Today/Today";
+import { Hourly } from "./Service/Hourly/Hourly";
+import { Locations } from "./Service/Locations/Locations";
 
 const port = process.env.PORT || 3000;
 
 let app = express();
 
 let todayObj: Today;
+let hourlyObj: Hourly;
 
 let locationObj: Locations;
 
-const getSearchOption = async (search: string): Promise<number | any> => {
+const getSearchOption = async (search: string, parameterTpye: string): Promise<string> => {
     await locationObj.scrapLocations(search);
     if (locationObj.getLocations().available_locations.length === 0) {
-        await todayObj.scrapLocation(search);
-        return 1;
+        if(parameterTpye === "today"){
+            await todayObj.scrapToday(search);
+            return "today";
+        }
+        else if(parameterTpye === "hourly"){
+            await hourlyObj.scrapHourly(search);
+            return "hourly";
+        }
     } else if (locationObj.getLocations().available_locations.length > 0) {
-        return 2;
+        return "locations";
     }
 
-    return 0;
+    return "";
 };
 
 app.get("/", (request: Request, response: Response): void => {
@@ -30,16 +38,22 @@ app.get("/today/:param", (request: Request, response: Response): void => {
     todayObj = new Today();
     locationObj = new Locations();
     const query: string = request.params.param;
-    getSearchOption(query).then((res) => {
-        res === 1
+    getSearchOption(query, "today").then((res) => {
+        res === "today"
             ? response.json(todayObj.getData(query))
             : response.json(locationObj.getLocations());
     });
 });
 
 app.get("/hourly/:param", (request: Request, response: Response): void => {
+    hourlyObj = new Hourly();
+    locationObj = new Locations();
     const query: string = request.params.param;
-
+    getSearchOption(query, "hourly").then((res) => {
+        res === "hourly"
+            ? response.json(hourlyObj.getData(query))
+            : response.json(locationObj.getLocations());
+    });
 })
 
 app.get("/daily/:param", (request: Request, response: Response): void => {

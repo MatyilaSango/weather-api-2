@@ -1,7 +1,7 @@
 import axios from "axios";
 import cheerio = require("cheerio");
-import { todayDataType } from "../Types/types";
-import { setToday, getToday } from "../Storage/StorageToday"
+import { todayDataType } from "../../Types/types";
+import { setToday, getToday } from "../../Storage"
 
 export class Today {
 
@@ -35,7 +35,7 @@ export class Today {
         return true
     }
 
-    public scrapLocation = async (search: string): Promise<void> => {
+    public scrapToday = async (search: string): Promise<void> => {
         if(getToday(search) && this.isFreshData(getToday(search))){
             this._data_by_location = getToday(search)
         }

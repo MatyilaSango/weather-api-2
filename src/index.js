@@ -13,22 +13,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const Today_1 = require("./Service/Today");
-const Locations_1 = require("./Service/Locations");
+const Today_1 = require("./Service/Today/Today");
+const Hourly_1 = require("./Service/Hourly/Hourly");
+const Locations_1 = require("./Service/Locations/Locations");
 const port = process.env.PORT || 3000;
 let app = (0, express_1.default)();
 let todayObj;
+let hourlyObj;
 let locationObj;
-const getSearchOption = (search) => __awaiter(void 0, void 0, void 0, function* () {
+const getSearchOption = (search, parameterTpye) => __awaiter(void 0, void 0, void 0, function* () {
     yield locationObj.scrapLocations(search);
     if (locationObj.getLocations().available_locations.length === 0) {
-        yield todayObj.scrapLocation(search);
-        return 1;
+        if (parameterTpye === "today") {
+            yield todayObj.scrapToday(search);
+            return "today";
+        }
+        else if (parameterTpye === "hourly") {
+            yield hourlyObj.scrapHourly(search);
+            return "hourly";
+        }
     }
     else if (locationObj.getLocations().available_locations.length > 0) {
-        return 2;
+        return "locations";
     }
-    return 0;
+    return "";
 });
 app.get("/", (request, response) => {
     response.json("A global weather API.");
@@ -37,14 +45,21 @@ app.get("/today/:param", (request, response) => {
     todayObj = new Today_1.Today();
     locationObj = new Locations_1.Locations();
     const query = request.params.param;
-    getSearchOption(query).then((res) => {
-        res === 1
+    getSearchOption(query, "today").then((res) => {
+        res === "today"
             ? response.json(todayObj.getData(query))
             : response.json(locationObj.getLocations());
     });
 });
 app.get("/hourly/:param", (request, response) => {
+    hourlyObj = new Hourly_1.Hourly();
+    locationObj = new Locations_1.Locations();
     const query = request.params.param;
+    getSearchOption(query, "hourly").then((res) => {
+        res === "hourly"
+            ? response.json(hourlyObj.getData(query))
+            : response.json(locationObj.getLocations());
+    });
 });
 app.get("/daily/:param", (request, response) => {
     const query = request.params.param;
