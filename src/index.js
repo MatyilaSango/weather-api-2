@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const Today_1 = require("./Today");
-const Locations_1 = require("./Locations");
+const Today_1 = require("./Service/Today");
+const Locations_1 = require("./Service/Locations");
 const port = process.env.PORT || 3000;
 let app = (0, express_1.default)();
 let todayObj = new Today_1.Today();
@@ -33,13 +33,19 @@ const getSearchOption = (search) => __awaiter(void 0, void 0, void 0, function* 
 app.get("/", (request, response) => {
     response.json("A global weather API.");
 });
-app.get("/weather/:param", (request, response) => {
+app.get("/today/:param", (request, response) => {
     const query = request.params.param;
     getSearchOption(query).then((res) => {
         res === 1
-            ? response.json(todayObj.getData())
+            ? response.json(todayObj.getData(query))
             : response.json(locationObj.getLocations());
     });
+});
+app.get("/hourly/:param", (request, response) => {
+    const query = request.params.param;
+});
+app.get("/daily/:param", (request, response) => {
+    const query = request.params.param;
 });
 app.listen(port, () => {
     console.log("Server is running at port 3000.");

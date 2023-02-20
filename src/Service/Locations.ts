@@ -1,9 +1,8 @@
 import axios from "axios";
 import cheerio = require("cheerio");
-import { locationsType } from "./types";
+import { locationsType } from "../Types/types";
 
 export class Locations {
-    private _searchParam: string = "";
 
     private _locations: locationsType = {
         search_parameter: "",
