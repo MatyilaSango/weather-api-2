@@ -1,7 +1,7 @@
 import axios from "axios";
 import cheerio = require("cheerio");
 import { todayDataType } from "../Types/types";
-import { TodayStorage } from "../Storage/StorageToday"
+import { setToday, getToday } from "../Storage/StorageToday"
 
 export class Today {
 
@@ -21,9 +21,7 @@ export class Today {
         },
     };
 
-    private _storage_today: TodayStorage = new TodayStorage();
-
-    constructor() { }
+    constructor() {}
 
     public isFreshData = (data: todayDataType): boolean => {
         if(data){
@@ -38,8 +36,8 @@ export class Today {
     }
 
     public scrapLocation = async (search: string): Promise<void> => {
-        if(this._storage_today.getToday(search) && this.isFreshData(this._storage_today.getToday(search))){
-            this._data_by_location = this._storage_today.getToday(search)
+        if(getToday(search) && this.isFreshData(getToday(search))){
+            this._data_by_location = getToday(search)
         }
         else{
             let response = await axios
@@ -92,11 +90,11 @@ export class Today {
                                 .text();
                     }
                 });
-            this._storage_today.setToday(this._data_by_location);
+            setToday(this._data_by_location);
         }
     };
 
     public getData = (location: string): todayDataType => {
-        return this._storage_today.getToday(location);
+        return getToday(location);
     };
 }

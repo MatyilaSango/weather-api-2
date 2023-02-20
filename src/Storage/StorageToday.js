@@ -1,15 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TodayStorage = void 0;
-class TodayStorage {
-    constructor() {
-        this._data = [];
-        this.setToday = (today) => {
-            this._data.push(today);
-        };
-        this.getToday = (location) => {
-            return this._data.filter(data => data.search_parameter.includes(location))[0];
-        };
-    }
-}
-exports.TodayStorage = TodayStorage;
+exports.getToday = exports.setToday = void 0;
+let data = [];
+const setToday = (today) => {
+    data.push(today);
+};
+exports.setToday = setToday;
+const getToday = (location) => {
+    return data.filter(data_ => data_.search_parameter.includes(location))[0];
+};
+exports.getToday = getToday;

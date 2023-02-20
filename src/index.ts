@@ -6,9 +6,9 @@ const port = process.env.PORT || 3000;
 
 let app = express();
 
-let todayObj: Today = new Today();
+let todayObj: Today;
 
-let locationObj: Locations = new Locations();
+let locationObj: Locations;
 
 const getSearchOption = async (search: string): Promise<number | any> => {
     await locationObj.scrapLocations(search);
@@ -27,6 +27,8 @@ app.get("/", (request: Request, response: Response): void => {
 });
 
 app.get("/today/:param", (request: Request, response: Response): void => {
+    todayObj = new Today();
+    locationObj = new Locations();
     const query: string = request.params.param;
     getSearchOption(query).then((res) => {
         res === 1

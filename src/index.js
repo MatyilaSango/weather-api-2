@@ -17,8 +17,8 @@ const Today_1 = require("./Service/Today");
 const Locations_1 = require("./Service/Locations");
 const port = process.env.PORT || 3000;
 let app = (0, express_1.default)();
-let todayObj = new Today_1.Today();
-let locationObj = new Locations_1.Locations();
+let todayObj;
+let locationObj;
 const getSearchOption = (search) => __awaiter(void 0, void 0, void 0, function* () {
     yield locationObj.scrapLocations(search);
     if (locationObj.getLocations().available_locations.length === 0) {
@@ -34,6 +34,8 @@ app.get("/", (request, response) => {
     response.json("A global weather API.");
 });
 app.get("/today/:param", (request, response) => {
+    todayObj = new Today_1.Today();
+    locationObj = new Locations_1.Locations();
     const query = request.params.param;
     getSearchOption(query).then((res) => {
         res === 1
