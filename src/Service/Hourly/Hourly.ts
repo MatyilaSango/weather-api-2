@@ -84,46 +84,69 @@ export class Hourly {
                     let tempdata: string = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).text()
                     if(tempdata.includes("RealFeel®")){
                         tempHourlyData.real_feel = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     }
                     else if(tempdata.includes("RealFeel Shade")){
                         tempHourlyData.real_feel_shade = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     }
                     else if(tempdata.includes("Max UV Index")){
                         tempHourlyData.max_uv_index = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     }
                     else if(tempdata.includes("Wind")){
                         tempHourlyData.wind = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     }
                     else if(tempdata.includes("Gusts")){
                         tempHourlyData.gusts = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     }
                     else if(tempdata.includes("Humidity")){
                         tempHourlyData.humidity = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     }
                     else if(tempdata.includes("Indoor Humidity")){
                         tempHourlyData.indoor_humidity = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     }
                     else if(tempdata.includes("Dew Point")){
                         tempHourlyData.dew_point = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     }
                     else if(tempdata.includes("Air Quality")){
                         tempHourlyData.air_quality = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     }
                     else if(tempdata.includes("Cloud Cover")){
                         tempHourlyData.cloudy_cover = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     }
                     else if(tempdata.includes("Visibility")){
                         tempHourlyData.visibility = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     }
                     else if(tempdata.includes("Cloud Ceiling")){
                         tempHourlyData.cloud_ceiling = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).find("span").text()
+                        next_child+=1 
+                        continue
                     } 
-
-                    next_child+=1 
-                }
-                
-                that._houryData.data.push(tempHourlyData)
-                
+                    else{
+                        next_child+=1 
+                    }              
+                }               
+                that._houryData.data.push(tempHourlyData)      
             })
 
             setHourly(this._houryData)
