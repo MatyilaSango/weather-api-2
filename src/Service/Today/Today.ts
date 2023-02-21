@@ -1,7 +1,7 @@
 import axios from "axios";
 import cheerio = require("cheerio");
 import { todayDataType } from "../../Types/types";
-import { setToday, getToday } from "../../Storage"
+import { setToday, getToday, deleteToday } from "../../Storage"
 
 export class Today {
 
@@ -29,10 +29,14 @@ export class Today {
             var data_time = new Date(data.data.date.getTime())
             data_time.setMinutes(data_time.getMinutes() + 5)
             if(date_now.getTime() > data_time.getTime()){
+                deleteToday(data.search_parameter)
                 return false
             }
+            else{
+                return true
+            }
         }
-        return true
+        return false
     }
 
     public scrapToday = async (search: string): Promise<void> => {

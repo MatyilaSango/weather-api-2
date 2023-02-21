@@ -39,10 +39,14 @@ class Today {
                 var data_time = new Date(data.data.date.getTime());
                 data_time.setMinutes(data_time.getMinutes() + 5);
                 if (date_now.getTime() > data_time.getTime()) {
+                    (0, Storage_1.deleteToday)(data.search_parameter);
                     return false;
                 }
+                else {
+                    return true;
+                }
             }
-            return true;
+            return false;
         };
         this.scrapToday = (search) => __awaiter(this, void 0, void 0, function* () {
             if ((0, Storage_1.getToday)(search) && this.isFreshData((0, Storage_1.getToday)(search))) {
