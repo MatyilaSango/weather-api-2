@@ -44,6 +44,6 @@ export type hourlydataType = {
 export type hourlyDataType = {
     search_parameter: string,
     weather_site: string,
-    data: hourlydataType
+    data: hourlydataType[]
 }
 

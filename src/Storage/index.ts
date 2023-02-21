@@ -9,7 +9,11 @@ export const setToday = (today: todayDataType): void => {
 }
 
 export const getToday = (location: string): todayDataType => {
-    return todayData.filter(data_ => data_.search_parameter.includes(location))[0];
+    return todayData.filter(today_ => today_.search_parameter.includes(location))[0];
+}
+
+export const deleteToday = (location: string): void => {
+    todayData.filter(today_ => !today_.search_parameter.includes(location))
 }
 
 //hourly getter and setter
@@ -18,6 +22,10 @@ export const setHourly = (hourly: hourlyDataType): void => {
 }
 
 export const getHourly = (location: string): hourlyDataType => {
-    return hourlyData.filter(hourly_ => hourly_.search_parameter.includes(location))[0];
+    return hourlyData.filter(hourly_ => hourly_.search_parameter.includes(location))[hourlyData.length - 1];
+}
+
+export const deleteHourly = (location: string): void => {
+    todayData.filter(hourly_ => !hourly_.search_parameter.includes(location))
 }
 
