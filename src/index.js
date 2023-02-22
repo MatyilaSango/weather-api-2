@@ -15,22 +15,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const Today_1 = require("./Service/Today/Today");
 const Hourly_1 = require("./Service/Hourly/Hourly");
+const Daily_1 = require("./Service/Daily/Daily");
 const Locations_1 = require("./Service/Locations/Locations");
 const port = process.env.PORT || 3000;
 let app = (0, express_1.default)();
 let todayObj;
 let hourlyObj;
+let dailyObj;
 let locationObj;
 const getSearchOption = (search, parameterTpye) => __awaiter(void 0, void 0, void 0, function* () {
     yield locationObj.scrapLocations(search);
     if (locationObj.getLocations().available_locations.length === 0) {
-        if (parameterTpye === "today") {
-            yield todayObj.scrapToday(search);
-            return "today";
-        }
-        else if (parameterTpye === "hourly") {
-            yield hourlyObj.scrapHourly(search);
-            return "hourly";
+        switch (parameterTpye) {
+            case "today":
+                yield todayObj.scrapToday(search);
+                return "today";
+            case "hourly":
+                yield hourlyObj.scrapHourly(search);
+                return "hourly";
+            case "daily":
+                yield dailyObj.scrapDaily(search);
+                return "daily";
         }
     }
     else if (locationObj.getLocations().available_locations.length > 0) {
@@ -62,7 +67,14 @@ app.get("/hourly/:param", (request, response) => {
     });
 });
 app.get("/daily/:param", (request, response) => {
+    dailyObj = new Daily_1.Daily();
+    locationObj = new Locations_1.Locations();
     const query = request.params.param;
+    getSearchOption(query, "daily").then((res) => {
+        res === "daily"
+            ? response.json(dailyObj.getData(query))
+            : response.json(locationObj.getLocations());
+    });
 });
 app.listen(port, () => {
     console.log("Server is running at port 3000.");
