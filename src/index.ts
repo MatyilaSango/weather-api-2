@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { Today } from "./Service/Today/Today";
 import { Hourly } from "./Service/Hourly/Hourly";
+import { Daily } from "./Service/Daily/Daily";
 import { Locations } from "./Service/Locations/Locations";
 
 const port = process.env.PORT || 3000;
@@ -9,20 +10,26 @@ let app = express();
 
 let todayObj: Today;
 let hourlyObj: Hourly;
-
+let dailyObj: Daily;
 let locationObj: Locations;
 
 const getSearchOption = async (search: string, parameterTpye: string): Promise<string> => {
     await locationObj.scrapLocations(search);
     if (locationObj.getLocations().available_locations.length === 0) {
-        if(parameterTpye === "today"){
-            await todayObj.scrapToday(search);
-            return "today";
+        switch(parameterTpye){
+            case "today":
+                await todayObj.scrapToday(search);
+                return "today";
+                
+            case "hourly":
+                await hourlyObj.scrapHourly(search);
+                return "hourly";
+
+            case "daily":
+                await dailyObj.scrapDaily(search);
+                return "daily";
         }
-        else if(parameterTpye === "hourly"){
-            await hourlyObj.scrapHourly(search);
-            return "hourly";
-        }
+
     } else if (locationObj.getLocations().available_locations.length > 0) {
         return "locations";
     }
@@ -57,7 +64,14 @@ app.get("/hourly/:param", (request: Request, response: Response): void => {
 })
 
 app.get("/daily/:param", (request: Request, response: Response): void => {
+    dailyObj = new Daily();
+    locationObj = new Locations();
     const query: string = request.params.param;
+    getSearchOption(query, "daily").then((res) => {
+        res === "daily"
+            ? response.json(dailyObj.getData(query))
+            : response.json(locationObj.getLocations());
+    });
 })
 
 

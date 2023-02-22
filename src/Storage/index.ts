@@ -1,7 +1,8 @@
-import { todayDataType, hourlyDataType } from "../Types/types";
+import { todayDataType, hourlyDataType, dailyDataType } from "../Types/types";
 
 let todayData: todayDataType[] = [];
 let hourlyData: hourlyDataType[] = [];
+let dailyData: dailyDataType[] = [];
 
 //today getter and setter
 export const setToday = (today: todayDataType): void => {
@@ -9,7 +10,7 @@ export const setToday = (today: todayDataType): void => {
 }
 
 export const getToday = (location: string): todayDataType => {
-    return todayData.filter(today_ => today_.search_parameter.includes(location))[0];
+    return todayData.filter(today_ => today_.search_parameter.includes(location))[todayData.length - 1];
 }
 
 export const deleteToday = (location: string): void => {
@@ -26,6 +27,19 @@ export const getHourly = (location: string): hourlyDataType => {
 }
 
 export const deleteHourly = (location: string): void => {
-    todayData.filter(hourly_ => !hourly_.search_parameter.includes(location))
+    hourlyData.filter(hourly_ => !hourly_.search_parameter.includes(location))
+}
+
+//daily getter and setter
+export const setDaily = (daily_: dailyDataType): void => {
+    dailyData.push(daily_);
+}
+
+export const getDaily = (location: string): dailyDataType => {
+    return dailyData.filter(daily_ => daily_.search_parameter.includes(location))[dailyData.length - 1];
+}
+
+export const deleteDaily = (location: string): void => {
+    dailyData.filter(daily_ => !daily_.search_parameter.includes(location))
 }
 
