@@ -13,7 +13,7 @@ let hourlyObj: Hourly;
 let dailyObj: Daily;
 let locationObj: Locations;
 
-const getSearchOption = async (search: string, parameterTpye: string): Promise<string> => {
+const getSearchOption = async (search: string, parameterTpye: string, day?: string): Promise<string> => {
     await locationObj.scrapLocations(search);
     if (locationObj.getLocations().available_locations.length === 0) {
         switch(parameterTpye){
@@ -26,7 +26,7 @@ const getSearchOption = async (search: string, parameterTpye: string): Promise<s
                 return "hourly";
 
             case "daily":
-                await dailyObj.scrapDaily(search);
+                await dailyObj.scrapDaily(search, day);
                 return "daily";
         }
 
@@ -63,13 +63,14 @@ app.get("/hourly/:param", (request: Request, response: Response): void => {
     });
 })
 
-app.get("/daily/:param", (request: Request, response: Response): void => {
+app.get("/daily/:param/:day", (request: Request, response: Response): void => {
     dailyObj = new Daily();
     locationObj = new Locations();
-    const query: string = request.params.param;
-    getSearchOption(query, "daily").then((res) => {
+    const location_query: string = request.params.param;
+    const day_query: string = request.params.day;
+    getSearchOption(location_query, "daily", day_query).then((res) => {
         res === "daily"
-            ? response.json(dailyObj.getData(query))
+            ? response.json(dailyObj.getData(location_query))
             : response.json(locationObj.getLocations());
     });
 })

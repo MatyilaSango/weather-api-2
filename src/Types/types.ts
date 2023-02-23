@@ -98,7 +98,7 @@ export type temperature_historyType = {
 
 export type daySunTempType = {
     day_night: dayNightType,
-    sunrise_sunset: sunriseSunsetType,
+    sunrise_sunset: riseSetType,
     temperature_history: temperature_historyType
 }
 
@@ -106,5 +106,5 @@ export type dailyDataType = {
     search_parameter: string,
     weather_site: string,
     date: string,
-    data: daySunTempType[]
+    data: daySunTempType
 }

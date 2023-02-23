@@ -1,7 +1,7 @@
 import axios from "axios";
 import cheerio = require("cheerio");
-import { deleteDaily, getDaily, getHourly } from "../../Storage";
-import { dailyDataType, dataType, dayNightType } from "../../Types/types";
+import { deleteDaily, getDaily, getHourly, setDaily } from "../../Storage";
+import { dailyDataType, dataType, dayNightType, highLowType, riseSetType, sunriseSunsetType, temperature_historyType } from "../../Types/types";
 
 export class Daily{
 
@@ -9,7 +9,64 @@ export class Daily{
         search_parameter: "",
         weather_site: "accuweather",
         date: "",
-        data: []
+        data: {
+            day_night: {
+                day: {
+                    title: "",
+                    temperature: "",
+                    real_feel: "",
+                    real_feel_shade: "",
+                    phrase: "",
+                    max_uv_index: "",
+                    wind: "",
+                    wind_gusts: "",
+                    prob_of_precip: "",
+                    prob_of_thunderstorm: "",
+                    precip: "",
+                    cloud_cover: ""
+                },
+                night: {
+                    title: "",
+                    temperature: "",
+                    real_feel: "",
+                    real_feel_shade: "",
+                    phrase: "",
+                    max_uv_index: "",
+                    wind: "",
+                    wind_gusts: "",
+                    prob_of_precip: "",
+                    prob_of_thunderstorm: "",
+                    precip: "",
+                    cloud_cover: ""
+                }
+            },
+            sunrise_sunset: {
+                sunrise: {
+                    duration: "",
+                    rise: "",
+                    set: ""
+                },
+                sunset: {
+                    duration: "",
+                    rise: "",
+                    set: ""
+                }
+            },
+            temperature_history: {
+                forcast: {
+                    high: "",
+                    low: ""
+                },
+                average: {
+                    high: "",
+                    low: ""
+                },
+                last_yr: {
+                    high: "",
+                    low: ""
+                }
+            }
+        }
     }
 
     private _NUMBEROFDAYS = 12
@@ -31,7 +88,7 @@ export class Daily{
         return false
     }
 
-    public scrapDaily = async (search: string): Promise<void> => {
+    public scrapDaily = async (search: string, day: string | any): Promise<void> => {
         if(this.isFreshData(getDaily(search))){
             this._dailyData = getDaily(search)
         }
@@ -47,10 +104,10 @@ export class Daily{
                         .trim();
                     return "https://www.accuweather.com"+$(".subnav-item").toArray()[2].attribs.href
                 });
+  
 
-            //for(let dayIndx = 1; dayIndx <= this._NUMBEROFDAYS; dayIndx++ )
             let hourlyresponse = await axios
-                .get(hourlyLink+"?day=1")
+                .get(hourlyLink+`?day=${day}`)
                 .then((prom) => prom.data)
                 .then(results => results);
             
@@ -121,15 +178,71 @@ export class Daily{
                 }
 
                 tempDayNightList.push(tempDayNightData)
-            })
-
-            //End scrappind day and night data 
+            })  
 
             let day_night_data: dayNightType = {
                 day: tempDayNightList[0],
                 night: tempDayNightList[1]
             }
 
+            //End scrappind day and night data 
+
+            //Scrapping sunrise/sunset data.
+
+            let tempRiseSetList: sunriseSunsetType[] = []
+
+            $(".sunrise-sunset").find(".panel").each(function(this){
+                
+                let tempRiseSetData: sunriseSunsetType = {
+                    duration: "",
+                    rise: "",
+                    set: ""
+                }
+
+                let durationList: string[] = String($(this).find(".spaced-content:nth-child(1)").find(".duration").text()).trim().split("\n")
+                tempRiseSetData.duration =  `${durationList[0]} ${durationList[durationList.length - 1].trim()}`
+                tempRiseSetData.rise = $(this).find(".spaced-content:nth-child(2)").find(".text-value:nth-child(2)").text().trim()
+                tempRiseSetData.set = $(this).find(".spaced-content:nth-child(3)").find(".text-value:nth-child(2)").text().trim()
+
+                tempRiseSetList.push(tempRiseSetData)
+            })
+
+            let sunrise_sunset_data: riseSetType = {
+                sunrise: tempRiseSetList[0],
+                sunset: tempRiseSetList[1]
+            }
+
+            //End scrapping sunrise/sunset data.
+
+            //Scrapping temperature history.
+
+            let tempHighLowList: highLowType[] = []
+
+            $(".temp-history").find(".row").each(function(this){
+                 let tempHighLowData: highLowType = {
+                    high: "",
+                    low: ""
+                 }
+                 
+                 tempHighLowData.high = $(this).find(".temperature:nth-child(2)").text().trim()
+                 tempHighLowData.low = $(this).find(".temperature:nth-child(3)").text().trim()
+                 
+                 tempHighLowList.push(tempHighLowData)
+            })
+
+            let TemperatureHistory: temperature_historyType = {
+                forcast: tempHighLowList[0],
+                average: tempHighLowList[1],
+                last_yr: tempHighLowList[2]
+            }
+
+            //End scrapping temperature history data.
+
+            this._dailyData.data.day_night = day_night_data
+            this._dailyData.data.sunrise_sunset = sunrise_sunset_data
+            this._dailyData.data.temperature_history = TemperatureHistory
+
+            setDaily(this._dailyData)
 
         }
     }

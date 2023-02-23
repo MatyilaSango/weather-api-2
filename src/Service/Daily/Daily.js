@@ -22,7 +22,64 @@ class Daily {
             search_parameter: "",
             weather_site: "accuweather",
             date: "",
-            data: []
+            data: {
+                day_night: {
+                    day: {
+                        title: "",
+                        temperature: "",
+                        real_feel: "",
+                        real_feel_shade: "",
+                        phrase: "",
+                        max_uv_index: "",
+                        wind: "",
+                        wind_gusts: "",
+                        prob_of_precip: "",
+                        prob_of_thunderstorm: "",
+                        precip: "",
+                        cloud_cover: ""
+                    },
+                    night: {
+                        title: "",
+                        temperature: "",
+                        real_feel: "",
+                        real_feel_shade: "",
+                        phrase: "",
+                        max_uv_index: "",
+                        wind: "",
+                        wind_gusts: "",
+                        prob_of_precip: "",
+                        prob_of_thunderstorm: "",
+                        precip: "",
+                        cloud_cover: ""
+                    }
+                },
+                sunrise_sunset: {
+                    sunrise: {
+                        duration: "",
+                        rise: "",
+                        set: ""
+                    },
+                    sunset: {
+                        duration: "",
+                        rise: "",
+                        set: ""
+                    }
+                },
+                temperature_history: {
+                    forcast: {
+                        high: "",
+                        low: ""
+                    },
+                    average: {
+                        high: "",
+                        low: ""
+                    },
+                    last_yr: {
+                        high: "",
+                        low: ""
+                    }
+                }
+            }
         };
         this._NUMBEROFDAYS = 12;
         this.isFreshData = (data) => {
@@ -39,7 +96,7 @@ class Daily {
             }
             return false;
         };
-        this.scrapDaily = (search) => __awaiter(this, void 0, void 0, function* () {
+        this.scrapDaily = (search, day) => __awaiter(this, void 0, void 0, function* () {
             if (this.isFreshData((0, Storage_1.getDaily)(search))) {
                 this._dailyData = (0, Storage_1.getDaily)(search);
             }
@@ -55,9 +112,8 @@ class Daily {
                         .trim();
                     return "https://www.accuweather.com" + $(".subnav-item").toArray()[2].attribs.href;
                 });
-                //for(let dayIndx = 1; dayIndx <= this._NUMBEROFDAYS; dayIndx++ )
                 let hourlyresponse = yield axios_1.default
-                    .get(hourlyLink + "?day=1")
+                    .get(hourlyLink + `?day=${day}`)
                     .then((prom) => prom.data)
                     .then(results => results);
                 var that = this;
@@ -120,11 +176,51 @@ class Daily {
                     }
                     tempDayNightList.push(tempDayNightData);
                 });
-                //End scrappind day and night data 
                 let day_night_data = {
                     day: tempDayNightList[0],
                     night: tempDayNightList[1]
                 };
+                //End scrappind day and night data 
+                //Scrapping sunrise/sunset data.
+                let tempRiseSetList = [];
+                $(".sunrise-sunset").find(".panel").each(function () {
+                    let tempRiseSetData = {
+                        duration: "",
+                        rise: "",
+                        set: ""
+                    };
+                    let durationList = String($(this).find(".spaced-content:nth-child(1)").find(".duration").text()).trim().split("\n");
+                    tempRiseSetData.duration = `${durationList[0]} ${durationList[durationList.length - 1].trim()}`;
+                    tempRiseSetData.rise = $(this).find(".spaced-content:nth-child(2)").find(".text-value:nth-child(2)").text().trim();
+                    tempRiseSetData.set = $(this).find(".spaced-content:nth-child(3)").find(".text-value:nth-child(2)").text().trim();
+                    tempRiseSetList.push(tempRiseSetData);
+                });
+                let sunrise_sunset_data = {
+                    sunrise: tempRiseSetList[0],
+                    sunset: tempRiseSetList[1]
+                };
+                //End scrapping sunrise/sunset data.
+                //Scrapping temperature history.
+                let tempHighLowList = [];
+                $(".temp-history").find(".row").each(function () {
+                    let tempHighLowData = {
+                        high: "",
+                        low: ""
+                    };
+                    tempHighLowData.high = $(this).find(".temperature:nth-child(2)").text().trim();
+                    tempHighLowData.low = $(this).find(".temperature:nth-child(3)").text().trim();
+                    tempHighLowList.push(tempHighLowData);
+                });
+                let TemperatureHistory = {
+                    forcast: tempHighLowList[0],
+                    average: tempHighLowList[1],
+                    last_yr: tempHighLowList[2]
+                };
+                //End scrapping temperature history data.
+                this._dailyData.data.day_night = day_night_data;
+                this._dailyData.data.sunrise_sunset = sunrise_sunset_data;
+                this._dailyData.data.temperature_history = TemperatureHistory;
+                (0, Storage_1.setDaily)(this._dailyData);
             }
         });
         this.getData = (location) => {

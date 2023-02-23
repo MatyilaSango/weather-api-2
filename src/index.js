@@ -23,7 +23,7 @@ let todayObj;
 let hourlyObj;
 let dailyObj;
 let locationObj;
-const getSearchOption = (search, parameterTpye) => __awaiter(void 0, void 0, void 0, function* () {
+const getSearchOption = (search, parameterTpye, day) => __awaiter(void 0, void 0, void 0, function* () {
     yield locationObj.scrapLocations(search);
     if (locationObj.getLocations().available_locations.length === 0) {
         switch (parameterTpye) {
@@ -34,7 +34,7 @@ const getSearchOption = (search, parameterTpye) => __awaiter(void 0, void 0, voi
                 yield hourlyObj.scrapHourly(search);
                 return "hourly";
             case "daily":
-                yield dailyObj.scrapDaily(search);
+                yield dailyObj.scrapDaily(search, day);
                 return "daily";
         }
     }
@@ -66,13 +66,14 @@ app.get("/hourly/:param", (request, response) => {
             : response.json(locationObj.getLocations());
     });
 });
-app.get("/daily/:param", (request, response) => {
+app.get("/daily/:param/:day", (request, response) => {
     dailyObj = new Daily_1.Daily();
     locationObj = new Locations_1.Locations();
-    const query = request.params.param;
-    getSearchOption(query, "daily").then((res) => {
+    const location_query = request.params.param;
+    const day_query = request.params.day;
+    getSearchOption(location_query, "daily", day_query).then((res) => {
         res === "daily"
-            ? response.json(dailyObj.getData(query))
+            ? response.json(dailyObj.getData(location_query))
             : response.json(locationObj.getLocations());
     });
 });
