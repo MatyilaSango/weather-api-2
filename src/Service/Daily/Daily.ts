@@ -141,6 +141,8 @@ export class Daily{
                 tempDayNightData.real_feel_shade = String($(this).find(".realfeel-shade-details").text().split("\n")[3]).trim()
                 tempDayNightData.phrase = $(this).find(".phrase").text().trim()
 
+                that._dailyData.date = $(this).find(".short-date").text().trim()
+
                 for(let next_child = 1; next_child <= 4; next_child++) {
                     let tempPanelData: string = $(this).find(`.left .panel-item:nth-child(${next_child})`).text().trim()
                     if(tempPanelData.includes("Max UV Index")){

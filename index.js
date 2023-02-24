@@ -23,10 +23,10 @@ let todayObj;
 let hourlyObj;
 let dailyObj;
 let locationObj;
-const getSearchOption = (search, parameterTpye, day) => __awaiter(void 0, void 0, void 0, function* () {
+const getSearchOption = (search, parameterType, day) => __awaiter(void 0, void 0, void 0, function* () {
     yield locationObj.scrapLocations(search);
     if (locationObj.getLocations().available_locations.length === 0) {
-        switch (parameterTpye) {
+        switch (parameterType) {
             case "today":
                 yield todayObj.scrapToday(search);
                 return "today";
