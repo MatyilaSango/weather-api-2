@@ -13,10 +13,10 @@ let hourlyObj: Hourly;
 let dailyObj: Daily;
 let locationObj: Locations;
 
-const getSearchOption = async (search: string, parameterTpye: string, day?: string): Promise<string> => {
+const getSearchOption = async (search: string, parameterType: string, day?: string): Promise<string> => {
     await locationObj.scrapLocations(search);
     if (locationObj.getLocations().available_locations.length === 0) {
-        switch(parameterTpye){
+        switch(parameterType){
             case "today":
                 await todayObj.scrapToday(search);
                 return "today";
