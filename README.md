@@ -5,7 +5,7 @@ A weather API that provides the weather data in the form of a JSON file.
 Confirms that the api is running.
 
 ## Commands
-/ - Home page.
+```/ - Home page.```
 
 ```/today/location``` - get todays's weather data.
 
@@ -15,7 +15,4 @@ Confirms that the api is running.
 
 
 ## Deployed on vercel
-Link to the api: [https://sm-waether-api.vercel.app/](https://sm-waether-api.vercel.app/)
-
-## Deplyed on Heroku
-Link to the api: [https://sm-weather-api.herokuapp.com/](https://sm-weather-api.herokuapp.com/)
+Link to the api: ['to be added']()

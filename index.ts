@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
-import { Today } from "./Service/Today/Today";
-import { Hourly } from "./Service/Hourly/Hourly";
-import { Daily } from "./Service/Daily/Daily";
-import { Locations } from "./Service/Locations/Locations";
+import { Today } from "./src/Service/Today/Today";
+import { Hourly } from "./src/Service/Hourly/Hourly";
+import { Daily } from "./src/Service/Daily/Daily";
+import { Locations } from "./src/Service/Locations/Locations";
 
 const port = process.env.PORT || 3000;
 

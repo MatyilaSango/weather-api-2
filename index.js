@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const Today_1 = require("./Service/Today/Today");
-const Hourly_1 = require("./Service/Hourly/Hourly");
-const Daily_1 = require("./Service/Daily/Daily");
-const Locations_1 = require("./Service/Locations/Locations");
+const Today_1 = require("./src/Service/Today/Today");
+const Hourly_1 = require("./src/Service/Hourly/Hourly");
+const Daily_1 = require("./src/Service/Daily/Daily");
+const Locations_1 = require("./src/Service/Locations/Locations");
 const port = process.env.PORT || 3000;
 let app = (0, express_1.default)();
 let todayObj;
