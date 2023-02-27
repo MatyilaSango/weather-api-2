@@ -1,6 +1,6 @@
 import axios from "axios";
 import cheerio = require("cheerio");
-import { deleteDaily, getDaily, getHourly, setDaily } from "../../Storage";
+import { deleteDaily, getDaily, setDaily } from "../../Storage";
 import { dailyDataType, dataType, dayNightType, highLowType, riseSetType, sunriseSunsetType, temperature_historyType } from "../../Types/types";
 
 export class Daily{
@@ -23,7 +23,8 @@ export class Daily{
                     prob_of_precip: "",
                     prob_of_thunderstorm: "",
                     precip: "",
-                    cloud_cover: ""
+                    cloud_cover: "",
+                    icon: ""
                 },
                 night: {
                     title: "",
@@ -37,7 +38,8 @@ export class Daily{
                     prob_of_precip: "",
                     prob_of_thunderstorm: "",
                     precip: "",
-                    cloud_cover: ""
+                    cloud_cover: "",
+                    icon: ""
                 }
             },
             sunrise_sunset: {
@@ -132,7 +134,8 @@ export class Daily{
                     prob_of_precip: "",
                     prob_of_thunderstorm: "",
                     precip: "",
-                    cloud_cover: ""
+                    cloud_cover: "",
+                    icon: ""
                 }
 
                 tempDayNightData.title = $(this).find(".title").text().trim()
@@ -140,6 +143,7 @@ export class Daily{
                 tempDayNightData.real_feel = $(this).find(".real-feel").text().split("\n")[3].trim()
                 tempDayNightData.real_feel_shade = String($(this).find(".realfeel-shade-details").text().split("\n")[3]).trim()
                 tempDayNightData.phrase = $(this).find(".phrase").text().trim()
+                tempDayNightData.icon = "https://www.accuweather.com" + <string> $(this).find("svg").data("src")
 
                 that._dailyData.date = $(this).find(".short-date").text().trim()
 

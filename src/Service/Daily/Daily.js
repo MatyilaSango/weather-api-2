@@ -36,7 +36,8 @@ class Daily {
                         prob_of_precip: "",
                         prob_of_thunderstorm: "",
                         precip: "",
-                        cloud_cover: ""
+                        cloud_cover: "",
+                        icon: ""
                     },
                     night: {
                         title: "",
@@ -50,7 +51,8 @@ class Daily {
                         prob_of_precip: "",
                         prob_of_thunderstorm: "",
                         precip: "",
-                        cloud_cover: ""
+                        cloud_cover: "",
+                        icon: ""
                     }
                 },
                 sunrise_sunset: {
@@ -133,13 +135,15 @@ class Daily {
                         prob_of_precip: "",
                         prob_of_thunderstorm: "",
                         precip: "",
-                        cloud_cover: ""
+                        cloud_cover: "",
+                        icon: ""
                     };
                     tempDayNightData.title = $(this).find(".title").text().trim();
                     tempDayNightData.temperature = String($(this).find(".temperature").text()).trim();
                     tempDayNightData.real_feel = $(this).find(".real-feel").text().split("\n")[3].trim();
                     tempDayNightData.real_feel_shade = String($(this).find(".realfeel-shade-details").text().split("\n")[3]).trim();
                     tempDayNightData.phrase = $(this).find(".phrase").text().trim();
+                    tempDayNightData.icon = "https://www.accuweather.com" + $(this).find("svg").data("src");
                     that._dailyData.date = $(this).find(".short-date").text().trim();
                     for (let next_child = 1; next_child <= 4; next_child++) {
                         let tempPanelData = $(this).find(`.left .panel-item:nth-child(${next_child})`).text().trim();
