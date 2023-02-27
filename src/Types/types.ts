@@ -6,7 +6,7 @@ export type locationsType = {
     available_locations: string[]
 }
 
-export type todaydataType = {
+export type todayType = {
     title: string,
     time: string,
     date: Date,
@@ -22,7 +22,7 @@ export type todaydataType = {
 export type todayDataType = {
     search_parameter: string,
     weather_site: string,
-    data: todaydataType
+    data: todayType
 }
 
 //Hourly types

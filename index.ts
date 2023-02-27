@@ -4,9 +4,14 @@ import { Hourly } from "./src/Service/Hourly/Hourly";
 import { Daily } from "./src/Service/Daily/Daily";
 import { Locations } from "./src/Service/Locations/Locations";
 
+let cors = require("cors");
+
+
 const port = process.env.PORT || 3000;
 
 let app = express();
+
+app.use(cors());
 
 let todayObj: Today;
 let hourlyObj: Hourly;
