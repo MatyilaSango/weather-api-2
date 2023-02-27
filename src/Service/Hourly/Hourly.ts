@@ -52,7 +52,6 @@ export class Hourly {
             var that = this
             let $ = cheerio.load(hourlyresponse);
             
-
             $(".hourly-wrapper").find(".accordion-item").each(function(this){
 
                 let tempHourlyData: hourlydataType = {
@@ -71,14 +70,16 @@ export class Hourly {
                     air_quality: "",
                     cloudy_cover: "",
                     visibility: "",
-                    cloud_ceiling: ""
+                    cloud_ceiling: "",
+                    icon: ""
                 }
 
                 tempHourlyData.hour = $(this).find(".hourly-card-nfl-header").find(".date").text()
                 tempHourlyData.temp = $(this).find(".hourly-card-nfl-header").find(".temp").text()
                 tempHourlyData.precip = $(this).find(".hourly-card-nfl-header").find(".precip").text().trim()
                 tempHourlyData.type = $(this).find(".hourly-card-nfl-content").find(".phrase").text()
-                
+                tempHourlyData.icon = "https://www.accuweather.com" + <string> $(this).find(".hourly-card-nfl-header").find(".hourly-card-subcontaint:nth-child(1)").find("svg").data("src")
+
                 let next_child: number = 1;
                 while(next_child <= 12){
                     let tempdata: string = $(this).find(".hourly-card-nfl-content").find(`.panel p:nth-child(${next_child})`).text()

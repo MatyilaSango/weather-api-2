@@ -31,6 +31,7 @@ class Today {
                 wind: "",
                 wind_gusts: "",
                 type: "",
+                icon: ""
             },
         };
         this.isFreshData = (data) => {
@@ -76,6 +77,7 @@ class Today {
                     .find(".spaced-content")
                     .find(".phrase")
                     .text();
+                this._data_by_location.data.icon = "https://www.accuweather.com" + $(".cur-con-weather-card").find(".weather-icon").data("src");
                 $(".cur-con-weather-card")
                     .find(".details-container")
                     .find(".spaced-content")

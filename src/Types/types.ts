@@ -16,6 +16,7 @@ export type todaydataType = {
     wind: string,
     wind_gusts: string,
     type: string,
+    icon: string
 }
 
 export type todayDataType = {
@@ -42,7 +43,8 @@ export type hourlydataType = {
     air_quality: string,
     cloudy_cover: string,
     visibility: string,
-    cloud_ceiling: string
+    cloud_ceiling: string,
+    icon: string
 }
 
 export type hourlyDataType = {
@@ -66,7 +68,8 @@ export type dataType = {
     prob_of_precip: string,
     prob_of_thunderstorm: string,
     precip: string,
-    cloud_cover: string
+    cloud_cover: string,
+    icon: string
 }
 
 export type dayNightType = {
