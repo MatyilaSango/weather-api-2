@@ -39,7 +39,6 @@ class Today {
                 let date_now = new Date();
                 var data_time = new Date(data.data.date.getTime());
                 data_time.setMinutes(data_time.getMinutes() + 5);
-                console.log(date_now.getTime(), data_time.getTime());
                 if (date_now.getTime() > data_time.getTime()) {
                     (0, Storage_1.deleteToday)(data.search_parameter);
                     return false;

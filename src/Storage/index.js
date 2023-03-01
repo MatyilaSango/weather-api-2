@@ -23,7 +23,6 @@ const setHourly = (hourly) => {
 };
 exports.setHourly = setHourly;
 const getHourly = (location) => {
-    console.log(hourlyData);
     return hourlyData.filter(hourly_ => hourly_.search_parameter.includes(location))[0];
 };
 exports.getHourly = getHourly;
@@ -39,7 +38,7 @@ exports.setDaily = setDaily;
 const formatDateNow = (day) => {
     let correct_day = (Number(day) === 0 || Number(day) === 1) ? 0 : Number(day);
     let date = new Date();
-    let date_now = `${date.getMonth() + 1}/${date.getDate() + Number(correct_day) - 1}`;
+    let date_now = `${date.getMonth() + 1}/${date.getDate() + Number(correct_day)}`;
     return date_now;
 };
 const getDaily = (location, day) => {

@@ -23,7 +23,6 @@ export const setHourly = (hourly: hourlyDataType): void => {
 }
 
 export const getHourly = (location: string): hourlyDataType => {
-    console.log(hourlyData)
     return hourlyData.filter(hourly_ => hourly_.search_parameter.includes(location))[0];
 }
 
@@ -39,7 +38,7 @@ export const setDaily = (daily_: dailyDataType): void => {
 const formatDateNow = (day: string): String => {
     let correct_day: Number = (Number(day) === 0 || Number(day) === 1) ? 0 : Number(day)
     let date: Date = new Date()
-    let date_now: string = `${date.getMonth() + 1}/${date.getDate() + Number(correct_day) - 1}`;
+    let date_now: string = `${date.getMonth() + 1}/${date.getDate() + Number(correct_day)}`;
     return date_now
 }
 
