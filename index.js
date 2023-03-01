@@ -75,7 +75,7 @@ app.get("/daily/:param/:day", (request, response) => {
     const day_query = request.params.day;
     getSearchOption(location_query, "daily", day_query).then((res) => {
         res === "daily"
-            ? response.json(dailyObj.getData(location_query))
+            ? response.json(dailyObj.getData(location_query, day_query))
             : response.json(locationObj.getLocations());
     });
 });

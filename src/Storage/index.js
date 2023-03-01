@@ -10,7 +10,7 @@ const setToday = (today) => {
 };
 exports.setToday = setToday;
 const getToday = (location) => {
-    return todayData.filter(today_ => today_.search_parameter.includes(location))[todayData.length - 1];
+    return todayData.filter(today_ => today_.search_parameter.includes(location))[0];
 };
 exports.getToday = getToday;
 const deleteToday = (location) => {
@@ -23,7 +23,8 @@ const setHourly = (hourly) => {
 };
 exports.setHourly = setHourly;
 const getHourly = (location) => {
-    return hourlyData.filter(hourly_ => hourly_.search_parameter.includes(location))[hourlyData.length - 1];
+    console.log(hourlyData);
+    return hourlyData.filter(hourly_ => hourly_.search_parameter.includes(location))[0];
 };
 exports.getHourly = getHourly;
 const deleteHourly = (location) => {
@@ -35,11 +36,19 @@ const setDaily = (daily_) => {
     dailyData.push(daily_);
 };
 exports.setDaily = setDaily;
-const getDaily = (location) => {
-    return dailyData.filter(daily_ => daily_.search_parameter.includes(location))[dailyData.length - 1];
+const formatDateNow = (day) => {
+    let correct_day = (Number(day) === 0 || Number(day) === 1) ? 0 : Number(day);
+    let date = new Date();
+    let date_now = `${date.getMonth() + 1}/${date.getDate() + Number(correct_day) - 1}`;
+    return date_now;
+};
+const getDaily = (location, day) => {
+    let date_now = formatDateNow(day);
+    return dailyData.filter(daily_ => daily_.search_parameter.includes(location) && daily_.date === date_now)[0];
 };
 exports.getDaily = getDaily;
-const deleteDaily = (location) => {
-    dailyData.filter(daily_ => !daily_.search_parameter.includes(location));
+const deleteDaily = (location, day) => {
+    let date_now = formatDateNow(day);
+    dailyData = dailyData.filter(daily_ => !(daily_.search_parameter.includes(location) && daily_.date === date_now));
 };
 exports.deleteDaily = deleteDaily;

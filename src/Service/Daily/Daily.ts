@@ -75,12 +75,19 @@ export class Daily{
 
     constructor() {}
 
-    public isFreshData = (data: dailyDataType): boolean => {
+    public formatDateNow = (day: string): String => {
+        let correct_day: Number = (Number(day) === 0 || Number(day) === 1) ? 0 : Number(day)
+        let date: Date = new Date()
+        let date_now: string = `${date.getMonth() + 1}/${date.getDate() + Number(correct_day) - 1}`;
+        return date_now
+    }
+
+    public isFreshData = (data: dailyDataType, day: string): boolean => {
         if(data){
             let date: Date = new Date()
-            let date_now: string = `${date.getDate()}/${date.getMonth() + 1}`;
-            if(date_now === data.date){
-                deleteDaily(data.search_parameter)
+            let date_now: String = this.formatDateNow(day)
+            if(date_now !== data.date){
+                deleteDaily(data.search_parameter, day)
                 return false
             }
             else{
@@ -91,8 +98,8 @@ export class Daily{
     }
 
     public scrapDaily = async (search: string, day: string | any): Promise<void> => {
-        if(this.isFreshData(getDaily(search))){
-            this._dailyData = getDaily(search)
+        if(this.isFreshData(getDaily(search, day), day)){
+            this._dailyData = getDaily(search, day)
         }
         else{
             let hourlyLink = await axios
@@ -107,7 +114,6 @@ export class Daily{
                     return "https://www.accuweather.com"+$(".subnav-item").toArray()[2].attribs.href
                 });
   
-
             let hourlyresponse = await axios
                 .get(hourlyLink+`?day=${day}`)
                 .then((prom) => prom.data)
@@ -253,8 +259,8 @@ export class Daily{
         }
     }
      
-    public getData = (location: string): dailyDataType => {
-        return getDaily(location);
+    public getData = (location: string, day: string): dailyDataType => {
+        return getDaily(location, day);
     };
             
 }

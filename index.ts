@@ -73,9 +73,11 @@ app.get("/daily/:param/:day", (request: Request, response: Response): void => {
     locationObj = new Locations();
     const location_query: string = request.params.param;
     const day_query: string = request.params.day;
+
+
     getSearchOption(location_query, "daily", day_query).then((res) => {
         res === "daily"
-            ? response.json(dailyObj.getData(location_query))
+            ? response.json(dailyObj.getData(location_query, day_query))
             : response.json(locationObj.getLocations());
     });
 })
