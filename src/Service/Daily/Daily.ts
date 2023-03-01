@@ -100,8 +100,10 @@ export class Daily{
     public scrapDaily = async (search: string, day: string | any): Promise<void> => {
         if(this.isFreshData(getDaily(search, day), day)){
             this._dailyData = getDaily(search, day)
+            
         }
         else{
+            
             let hourlyLink = await axios
                 .get(`https://www.accuweather.com/en/search-locations?query=${search}`)
                 .then((prom) => prom.data)
@@ -255,7 +257,7 @@ export class Daily{
             this._dailyData.data.temperature_history = TemperatureHistory
 
             setDaily(this._dailyData)
-
+            
         }
     }
      
