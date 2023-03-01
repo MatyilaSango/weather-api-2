@@ -84,12 +84,18 @@ class Daily {
             }
         };
         this._NUMBEROFDAYS = 12;
-        this.isFreshData = (data) => {
+        this.formatDateNow = (day) => {
+            let correct_day = (Number(day) === 0 || Number(day) === 1) ? 0 : Number(day);
+            let date = new Date();
+            let date_now = `${date.getMonth() + 1}/${date.getDate() + Number(correct_day) - 1}`;
+            return date_now;
+        };
+        this.isFreshData = (data, day) => {
             if (data) {
                 let date = new Date();
-                let date_now = `${date.getDate()}/${date.getMonth() + 1}`;
-                if (date_now === data.date) {
-                    (0, Storage_1.deleteDaily)(data.search_parameter);
+                let date_now = this.formatDateNow(day);
+                if (date_now !== data.date) {
+                    (0, Storage_1.deleteDaily)(data.search_parameter, day);
                     return false;
                 }
                 else {
@@ -99,8 +105,8 @@ class Daily {
             return false;
         };
         this.scrapDaily = (search, day) => __awaiter(this, void 0, void 0, function* () {
-            if (this.isFreshData((0, Storage_1.getDaily)(search))) {
-                this._dailyData = (0, Storage_1.getDaily)(search);
+            if (this.isFreshData((0, Storage_1.getDaily)(search, day), day)) {
+                this._dailyData = (0, Storage_1.getDaily)(search, day);
             }
             else {
                 let hourlyLink = yield axios_1.default
@@ -228,8 +234,8 @@ class Daily {
                 (0, Storage_1.setDaily)(this._dailyData);
             }
         });
-        this.getData = (location) => {
-            return (0, Storage_1.getDaily)(location);
+        this.getData = (location, day) => {
+            return (0, Storage_1.getDaily)(location, day);
         };
     }
 }
