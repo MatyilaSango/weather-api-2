@@ -44,7 +44,7 @@ const formatDateNow = (day: string): String => {
 
 export const getDaily = (location: string, day: string): dailyDataType => {
     let date_now: String = formatDateNow(day)
-    return dailyData.filter(daily_ => daily_.search_parameter.includes(location) && daily_.date === date_now)[0];
+    return dailyData.filter(daily_ => daily_.search_parameter.includes(location))[0];
 }
 
 export const deleteDaily = (location: string, day: string): void => {

@@ -24,6 +24,7 @@ class Today {
             data: {
                 title: "Current weather",
                 time: "",
+                offset: "",
                 date: new Date(),
                 temp: "",
                 real_feel: "",
@@ -96,6 +97,7 @@ class Today {
                     }
                 });
                 this._data_by_location.search_parameter = search;
+                this._data_by_location.data.offset = `${(this._data_by_location.data.time.includes("PM")) ? (Number(this._data_by_location.data.time.split(":")[0]) + 12) - (new Date().getUTCHours()) : Number(this._data_by_location.data.time.split(":")[0]) - (new Date().getUTCHours())}`;
                 (0, Storage_1.setToday)(this._data_by_location);
             }
         });

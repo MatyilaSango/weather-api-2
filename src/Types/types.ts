@@ -9,6 +9,7 @@ export type locationsType = {
 export type todayType = {
     title: string,
     time: string,
+    offset: string,
     date: Date,
     temp: string,
     real_feel: string,

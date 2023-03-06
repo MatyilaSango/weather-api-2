@@ -43,7 +43,7 @@ const formatDateNow = (day) => {
 };
 const getDaily = (location, day) => {
     let date_now = formatDateNow(day);
-    return dailyData.filter(daily_ => daily_.search_parameter.includes(location) && daily_.date === date_now)[0];
+    return dailyData.filter(daily_ => daily_.search_parameter.includes(location))[0];
 };
 exports.getDaily = getDaily;
 const deleteDaily = (location, day) => {
