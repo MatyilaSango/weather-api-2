@@ -51,12 +51,7 @@ export class Today {
                 .then((results) => results);
 
             let $ = cheerio.load(response);
-
             var that = this;
-            this._data_by_location.search_parameter = $("head")
-                .find("title")
-                .text()
-                .trim();
             this._data_by_location.data.time = $(".cur-con-weather-card")
                 .find(".cur-con-weather-card__subtitle")
                 .text()
@@ -97,6 +92,7 @@ export class Today {
                                 .text();
                     }
                 });
+            this._data_by_location.search_parameter = search
             setToday(this._data_by_location);
         }
     };

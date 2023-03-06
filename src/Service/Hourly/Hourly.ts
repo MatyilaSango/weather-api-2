@@ -37,10 +37,6 @@ export class Hourly {
                 .then((prom) => prom.data)
                 .then((results) => {
                     let $ = cheerio.load(results);
-                    this._houryData.search_parameter = $("head")
-                        .find("title")
-                        .text()
-                        .trim();
                     return "https://www.accuweather.com"+$(".subnav-item").toArray()[1].attribs.href
                 });
 
@@ -146,10 +142,10 @@ export class Hourly {
                     else{
                         next_child+=1 
                     }              
-                }               
+                }           
                 that._houryData.data.push(tempHourlyData)      
             })
-
+            this._houryData.search_parameter = search  
             setHourly(this._houryData)
         }
     }

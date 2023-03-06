@@ -47,10 +47,6 @@ class Hourly {
                     .then((prom) => prom.data)
                     .then((results) => {
                     let $ = cheerio.load(results);
-                    this._houryData.search_parameter = $("head")
-                        .find("title")
-                        .text()
-                        .trim();
                     return "https://www.accuweather.com" + $(".subnav-item").toArray()[1].attribs.href;
                 });
                 let hourlyresponse = yield axios_1.default
@@ -153,6 +149,7 @@ class Hourly {
                     }
                     that._houryData.data.push(tempHourlyData);
                 });
+                this._houryData.search_parameter = search;
                 (0, Storage_1.setHourly)(this._houryData);
             }
         });
