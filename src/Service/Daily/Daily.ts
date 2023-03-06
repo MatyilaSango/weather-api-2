@@ -109,10 +109,6 @@ export class Daily{
                 .then((prom) => prom.data)
                 .then((results) => {
                     let $ = cheerio.load(results);
-                    this._dailyData.search_parameter = $("head")
-                        .find("title")
-                        .text()
-                        .trim();
                     return "https://www.accuweather.com"+$(".subnav-item").toArray()[2].attribs.href
                 });
   
@@ -256,6 +252,7 @@ export class Daily{
             this._dailyData.data.sunrise_sunset = sunrise_sunset_data
             this._dailyData.data.temperature_history = TemperatureHistory
 
+            this._dailyData.search_parameter = search  
             setDaily(this._dailyData)
             
         }

@@ -114,10 +114,6 @@ class Daily {
                     .then((prom) => prom.data)
                     .then((results) => {
                     let $ = cheerio.load(results);
-                    this._dailyData.search_parameter = $("head")
-                        .find("title")
-                        .text()
-                        .trim();
                     return "https://www.accuweather.com" + $(".subnav-item").toArray()[2].attribs.href;
                 });
                 let hourlyresponse = yield axios_1.default
@@ -231,6 +227,7 @@ class Daily {
                 this._dailyData.data.day_night = day_night_data;
                 this._dailyData.data.sunrise_sunset = sunrise_sunset_data;
                 this._dailyData.data.temperature_history = TemperatureHistory;
+                this._dailyData.search_parameter = search;
                 (0, Storage_1.setDaily)(this._dailyData);
             }
         });
