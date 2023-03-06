@@ -252,7 +252,7 @@ export class Daily{
             this._dailyData.data.sunrise_sunset = sunrise_sunset_data
             this._dailyData.data.temperature_history = TemperatureHistory
 
-            this._dailyData.search_parameter = search  
+            this._dailyData.search_parameter = search
             setDaily(this._dailyData)
             
         }
