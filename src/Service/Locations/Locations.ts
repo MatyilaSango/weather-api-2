@@ -1,4 +1,4 @@
-import axios from "axios";
+const axios = require("axios");
 import cheerio = require("cheerio");
 import { locationsType } from "../../Types/types";
 
@@ -13,17 +13,14 @@ export class Locations {
     constructor() { }
 
     public scrapLocations = async (search: string): Promise<void> => {
-        console.log("in scrapLocations")
         this._locations.search_parameter = search;
         let response = await axios
             .get(`https://www.accuweather.com/en/search-locations?query=${search}`)
-            .then((prom) => prom.data)
-            .then((results) => results);
+            .then((prom: { data: any; }) => prom.data)
+            .then((results: any) => results);
 
-        if(response){console.log("not empty")}
-        else{console.log("empty")}
         let $ = cheerio.load(response);
-        this._locations.available_locations = $(".locations-list a")
+        this._locations.available_locations = await $(".locations-list a")
             .text()
             .split("\t")
             .filter((cell) => cell.trim() !== "");
