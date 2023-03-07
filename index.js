@@ -26,9 +26,7 @@ let hourlyObj;
 let dailyObj;
 let locationObj;
 const getSearchOption = (search, parameterType, day) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("loc start");
     yield locationObj.scrapLocations(search);
-    console.log("loc end");
     if (locationObj.getLocations().available_locations.length === 0) {
         switch (parameterType) {
             case "today":

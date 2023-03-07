@@ -19,9 +19,7 @@ let dailyObj: Daily;
 let locationObj: Locations;
 
 const getSearchOption = async (search: string, parameterType: string, day?: string): Promise<string> => {
-    console.log("loc start")
     await locationObj.scrapLocations(search);
-    console.log("loc end")
     if (locationObj.getLocations().available_locations.length === 0) {
         switch(parameterType){
             case "today":
