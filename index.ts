@@ -47,16 +47,14 @@ app.get("/", (request: Request, response: Response): void => {
 });
 
 app.get("/today/:param", (request: Request, response: Response): void => {
-
-    // todayObj = new Today();
-    // locationObj = new Locations();
+    todayObj = new Today();
+    locationObj = new Locations();
     const query: string = request.params.param;
-    // getSearchOption(query, "today").then((res) => {
-    //     res === "today"
-    //         ? response.json(todayObj.getData(query))
-    //         : response.json(locationObj.getLocations());
-    // });
-    response.json({query: query})
+    getSearchOption(query, "today").then((res) => {
+        res === "today"
+            ? response.json(todayObj.getData(query))
+            : response.json(locationObj.getLocations());
+    });
 });
 
 app.get("/hourly/:param", (request: Request, response: Response): void => {

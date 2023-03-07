@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const Today_1 = require("./src/Service/Today/Today");
 const Hourly_1 = require("./src/Service/Hourly/Hourly");
 const Daily_1 = require("./src/Service/Daily/Daily");
 const Locations_1 = require("./src/Service/Locations/Locations");
@@ -48,15 +49,14 @@ app.get("/", (request, response) => {
     response.json("A global weather API.");
 });
 app.get("/today/:param", (request, response) => {
-    // todayObj = new Today();
-    // locationObj = new Locations();
+    todayObj = new Today_1.Today();
+    locationObj = new Locations_1.Locations();
     const query = request.params.param;
-    // getSearchOption(query, "today").then((res) => {
-    //     res === "today"
-    //         ? response.json(todayObj.getData(query))
-    //         : response.json(locationObj.getLocations());
-    // });
-    response.json({ query: query });
+    getSearchOption(query, "today").then((res) => {
+        res === "today"
+            ? response.json(todayObj.getData(query))
+            : response.json(locationObj.getLocations());
+    });
 });
 app.get("/hourly/:param", (request, response) => {
     hourlyObj = new Hourly_1.Hourly();
