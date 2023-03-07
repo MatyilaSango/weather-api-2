@@ -13,6 +13,7 @@ export class Locations {
     constructor() { }
 
     public scrapLocations = async (search: string): Promise<void> => {
+        console.log("in scrapLocations")
         this._locations.search_parameter = search;
         let response = await axios
             .get(`https://www.accuweather.com/en/search-locations?query=${search}`)
@@ -20,7 +21,7 @@ export class Locations {
             .then((results) => results);
 
         let $ = cheerio.load(response);
-        this._locations.available_locations = await $(".locations-list a")
+        this._locations.available_locations = $(".locations-list a")
             .text()
             .split("\t")
             .filter((cell) => cell.trim() !== "");
