@@ -25,6 +25,7 @@ class Locations {
                 .get(`https://www.accuweather.com/en/search-locations?query=${search}`)
                 .then((prom) => prom.data)
                 .then((results) => results);
+            console.log(response);
             let $ = cheerio.load(response);
             this._locations.available_locations = yield $(".locations-list a")
                 .text()

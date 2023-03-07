@@ -18,7 +18,7 @@ export class Locations {
             .get(`https://www.accuweather.com/en/search-locations?query=${search}`)
             .then((prom: { data: any; }) => prom.data)
             .then((results: any) => results);
-
+        console.log(response)
         let $ = cheerio.load(response);
         this._locations.available_locations = await $(".locations-list a")
             .text()
