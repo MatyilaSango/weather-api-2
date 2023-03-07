@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from "axios";
 import cheerio = require("cheerio");
 import { locationsType } from "../../Types/types";
 
@@ -16,10 +16,9 @@ export class Locations {
         this._locations.search_parameter = search;
         let response = await axios
             .get(`https://www.accuweather.com/en/search-locations?query=${search}`)
-            .then((prom: { data: any; }) => prom.data)
-            .then((results: any) => results)
-            .catch((err: any) => {console.log(err)});
-        console.log(response)
+            .then((prom) => prom.data)
+            .then((results) => results);
+
         let $ = cheerio.load(response);
         this._locations.available_locations = await $(".locations-list a")
             .text()

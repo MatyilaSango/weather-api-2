@@ -8,9 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Locations = void 0;
-const axios = require("axios");
+const axios_1 = __importDefault(require("axios"));
 const cheerio = require("cheerio");
 class Locations {
     constructor() {
@@ -21,12 +24,10 @@ class Locations {
         };
         this.scrapLocations = (search) => __awaiter(this, void 0, void 0, function* () {
             this._locations.search_parameter = search;
-            let response = yield axios
+            let response = yield axios_1.default
                 .get(`https://www.accuweather.com/en/search-locations?query=${search}`)
                 .then((prom) => prom.data)
-                .then((results) => results)
-                .catch((err) => { console.log(err); });
-            console.log(response);
+                .then((results) => results);
             let $ = cheerio.load(response);
             this._locations.available_locations = yield $(".locations-list a")
                 .text()
