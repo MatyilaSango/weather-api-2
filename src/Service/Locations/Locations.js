@@ -24,7 +24,8 @@ class Locations {
             let response = yield axios
                 .get(`https://www.accuweather.com/en/search-locations?query=${search}`)
                 .then((prom) => prom.data)
-                .then((results) => results);
+                .then((results) => results)
+                .catch((err) => { console.log(err); });
             console.log(response);
             let $ = cheerio.load(response);
             this._locations.available_locations = yield $(".locations-list a")

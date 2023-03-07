@@ -17,7 +17,8 @@ export class Locations {
         let response = await axios
             .get(`https://www.accuweather.com/en/search-locations?query=${search}`)
             .then((prom: { data: any; }) => prom.data)
-            .then((results: any) => results);
+            .then((results: any) => results)
+            .catch((err: any) => {console.log(err)});
         console.log(response)
         let $ = cheerio.load(response);
         this._locations.available_locations = await $(".locations-list a")
