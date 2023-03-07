@@ -11,7 +11,8 @@
   },
   "scripts": {
     "watch": "tsc --watch",
-    "start": "nodemon ./index"
+    "start": "node index.js",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Sango Matyila",
