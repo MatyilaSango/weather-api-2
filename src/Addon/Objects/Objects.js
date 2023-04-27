@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.locationObj = exports.dailyObj = exports.hourlyObj = exports.todayObj = void 0;
+const Daily_1 = require("../../Service/Daily/Daily");
+const Hourly_1 = require("../../Service/Hourly/Hourly");
+const Locations_1 = require("../../Service/Locations/Locations");
+const Today_1 = require("../../Service/Today/Today");
+exports.todayObj = new Today_1.Today();
+exports.hourlyObj = new Hourly_1.Hourly();
+exports.dailyObj = new Daily_1.Daily();
+exports.locationObj = new Locations_1.Locations();
